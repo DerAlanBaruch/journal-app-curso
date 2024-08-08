@@ -13,11 +13,15 @@ import {
   Typography,
 } from "@mui/material";
 import { FC } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 
 export const Sidebar: FC<{ drawerWidth: number }> = ({ drawerWidth }) => {
+  const { user } = useSelector((state: RootState) => state.auth);
+
   return (
     <Box
-      component={"nav"}
+      component="nav"
       sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
     >
       <Drawer
@@ -34,7 +38,7 @@ export const Sidebar: FC<{ drawerWidth: number }> = ({ drawerWidth }) => {
       >
         <Toolbar>
           <Typography variant="h6" noWrap component="div">
-            Sidebar
+            {user?.displayName}
           </Typography>
         </Toolbar>
         <Divider />

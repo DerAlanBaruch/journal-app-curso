@@ -7,12 +7,12 @@ export const NoteView: FC = () => {
   return (
     <Grid
       container
-      direction={"row"}
-      justifyContent={"space-between"}
+      direction="row"
+      justifyContent="space-between"
       sx={{ mb: 1 }}
     >
       <Grid item>
-        <Typography fontSize={39} fontWeight={"light"}>
+        <Typography fontSize={39} fontWeight="light">
           28 de agosto, 2024
         </Typography>
       </Grid>

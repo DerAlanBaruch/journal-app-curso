@@ -1,11 +1,24 @@
 import { Google } from "@mui/icons-material";
-import { Button, Grid, Link, TextField, Typography } from "@mui/material";
-import { FC } from "react";
+import {
+  Alert,
+  Button,
+  Grid,
+  Link,
+  TextField,
+  Typography,
+} from "@mui/material";
+import { FC, useMemo } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { AuthLayout } from "../layout/AuthLayout";
 import { useForm } from "../../hooks";
-import { useDispatch } from "react-redux";
-import { AppDispatch, checkingAuthentication, startGoogleSignIn } from "../../store";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  AppDispatch,
+  RootState,
+  startGoogleSignIn,
+  startLoginWithEmail,
+} from "../../store";
+import { AuthStatus } from "../types";
 
 export const LoginPage: FC = () => {
   const { formState, handleInputChange } = useForm({
@@ -15,10 +28,18 @@ export const LoginPage: FC = () => {
 
   const dispatch: AppDispatch = useDispatch();
 
+  const { status, errorMessage } = useSelector(
+    (state: RootState) => state.auth
+  );
+  const isAuthenticating = useMemo(
+    () => status === AuthStatus.CHECKING,
+    [status]
+  );
+
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log(formState);
-    dispatch(checkingAuthentication());
+    dispatch(startLoginWithEmail(formState));
   };
 
   const onGoogleLogin = () => {
@@ -28,7 +49,10 @@ export const LoginPage: FC = () => {
 
   return (
     <AuthLayout title="Login">
-      <form onSubmit={onSubmit}>
+      <form
+        onSubmit={onSubmit}
+        className="animate__animated animate__fadeIn animate__faster"
+      >
         <Grid container>
           <Grid item xs={12} sx={{ mt: 2 }}>
             <TextField
@@ -52,23 +76,36 @@ export const LoginPage: FC = () => {
               name="password"
             />
           </Grid>
-          <Grid container spacing={2} sx={{ mt: 2 }} justifyContent={"center"}>
+          <Grid container spacing={2} sx={{ mt: 2 }} justifyContent="center">
+            <Grid item display={errorMessage ? "block" : "none"} xs={12}>
+              <Alert severity="error">{errorMessage}</Alert>
+            </Grid>
             <Grid item xs={12} sm={6}>
-              <Button type="submit" variant="contained" fullWidth>
+              <Button
+                disabled={isAuthenticating}
+                type="submit"
+                variant="contained"
+                fullWidth
+              >
                 Login
               </Button>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <Button variant="contained" fullWidth onClick={onGoogleLogin}>
+              <Button
+                disabled={isAuthenticating}
+                variant="contained"
+                fullWidth
+                onClick={onGoogleLogin}
+              >
                 <Google />
                 <Typography sx={{ ml: 1 }}>Login with Google</Typography>
               </Button>
             </Grid>
           </Grid>
-          <Grid container direction={"row"} justifyContent={"end"}>
+          <Grid container direction="row" justifyContent="end">
             <Grid item>
               <Typography>
-                Don't have an account?{" "}
+                {"Don't have an account? "}
                 <Link
                   color="inherit"
                   component={RouterLink}

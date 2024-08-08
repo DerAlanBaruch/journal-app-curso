@@ -13,9 +13,9 @@ export const AuthLayout: FC<PropsWithChildren<Props>> = ({
       container
       spacing={0}
       sx={{ minHeight: "100vh", backgroundColor: "primary.main", padding: 4 }}
-      direction={"column"}
-      alignItems={"center"}
-      justifyContent={"center"}
+      direction="column"
+      alignItems="center"
+      justifyContent="center"
     >
       <Grid
         item
