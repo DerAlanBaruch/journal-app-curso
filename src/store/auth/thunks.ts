@@ -8,6 +8,7 @@ import {
   signInWithGoogle,
   signUpWithEmail,
 } from "../../firebase/providers";
+import { resetState } from "../journal/journalSlice";
 
 export const checkingAuthentication = createAsyncThunk(
   "auth/checkingAuthentication",
@@ -54,6 +55,7 @@ export const startLogout = createAsyncThunk(
   "auth/startLogout",
   async (_data, thunkApi) => {
     await logoutFirebase();
+    thunkApi.dispatch(resetState());
     thunkApi.dispatch(logout());
   }
 );

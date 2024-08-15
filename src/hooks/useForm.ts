@@ -36,9 +36,13 @@ export const useForm = <T>(
     setErrors(validateForm());
   }, [formState]);
 
+  useEffect(() => {
+    setFormState(initialForm);
+  }, [initialForm]);
+
   const isValid = useMemo(() => {
     return Object.keys(errors).length === 0;
-  }, [errors])
+  }, [errors]);
 
   const handleInputChange = ({ target }: { target: any }) => {
     setFormState({
@@ -53,6 +57,6 @@ export const useForm = <T>(
     handleInputChange,
     onResetForm,
     errors,
-    isValid
+    isValid,
   };
 };

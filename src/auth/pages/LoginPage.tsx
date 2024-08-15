@@ -20,11 +20,13 @@ import {
 } from "../../store";
 import { AuthStatus } from "../types";
 
+const initialForm = {
+  email: "",
+  password: "",
+};
+
 export const LoginPage: FC = () => {
-  const { formState, handleInputChange } = useForm({
-    email: "",
-    password: "",
-  });
+  const { formState, handleInputChange } = useForm(initialForm);
 
   const dispatch: AppDispatch = useDispatch();
 
