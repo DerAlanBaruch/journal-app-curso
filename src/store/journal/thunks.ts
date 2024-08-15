@@ -12,7 +12,7 @@ import {
   setSaving,
   updateNote,
 } from "./journalSlice";
-import { deleteFile, fileUpload, loadNotes } from "../../helpers";
+import { fileUpload, loadNotes } from "../../helpers";
 
 export const startNewNote = createAsyncThunk(
   "journal/startNewNote",
